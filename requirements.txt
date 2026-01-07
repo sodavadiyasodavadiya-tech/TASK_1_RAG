@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+sentence-transformers
+numpy==1.26.4
+requests
+python-multipart
