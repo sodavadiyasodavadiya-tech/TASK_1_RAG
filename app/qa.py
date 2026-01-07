@@ -2,7 +2,7 @@ import requests
 
 HF_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 HF_HEADERS = {
-    "Authorization": "Bearer YOUR_HF_API_TOKEN"
+    "Authorization": f"Bearer {os.environ.get('HF_TOKEN')}"
 }
 
 def ask_llm(context: str, question: str) -> str:
