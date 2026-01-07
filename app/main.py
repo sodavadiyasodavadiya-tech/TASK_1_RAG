@@ -6,7 +6,7 @@ from app.qa import ask_llm
 
 app = FastAPI(title="RAG Internship Task API")
 
-# ✅ Run DB setup safely on startup (Windows-safe)
+
 @app.on_event("startup")
 def startup_event():
     create_tables()
@@ -51,7 +51,7 @@ def ask(question: str = Query(..., min_length=3)):
     """
     retrieved = retrieve_chunks(question, top_k=3)
 
-    # ❗ If no relevant chunks found
+   
     if not retrieved:
         return {
             "question": question,
@@ -64,12 +64,12 @@ def ask(question: str = Query(..., min_length=3)):
 
     answer = ask_llm(context, question)
 
-# ✅ EXTRACTIVE FALLBACK (CRITICAL)
+
     if answer.strip().lower().startswith("i don't know"):
         answer = retrieved[0][1]["text"]
 
 
-    # ✅ Confidence computed from similarity scores
+    
     confidence = sum([item[0] for item in retrieved]) / len(retrieved)
 
     evidence = [
