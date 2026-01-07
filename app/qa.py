@@ -1,10 +1,15 @@
 import requests
 
-def ask_llm(context, question):
+HF_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
+HF_HEADERS = {
+    "Authorization": "Bearer YOUR_HF_API_TOKEN"
+}
+
+def ask_llm(context: str, question: str) -> str:
     prompt = f"""
-You must answer ONLY using the context below.
+Answer ONLY using the context below.
 If the answer is not present, say:
-"I don’t know based on the provided context"
+"I don't know based on the provided context."
 
 Context:
 {context}
@@ -14,17 +19,18 @@ Question:
 """
 
     response = requests.post(
-        "https://api.openai.com/v1/chat/completions",
-        headers={
-            "Authorization": "Bearer YOUR_API_KEY",
-            "Content-Type": "application/json"
-        },
-        json={
-            "model": "gpt-3.5-turbo",
-            "messages": [{"role": "user", "content": prompt}]
-        }
+        HF_API_URL,
+        headers=HF_HEADERS,
+        json={"inputs": prompt}
+        
     )
 
-    print(response.json())
-    return "DEBUG"
+    data = response.json()
+
+    # HuggingFace response format
+    if isinstance(data, list) and "generated_text" in data[0]:
+        return data[0]["generated_text"].strip()
+
+    return "I don't know based on the provided context."
+
 
