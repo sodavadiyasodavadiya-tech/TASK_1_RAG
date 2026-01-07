@@ -1,5 +1,5 @@
 import requests
-
+import os
 HF_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-base"
 HF_HEADERS = {
     "Authorization": f"Bearer {os.environ.get('HF_TOKEN')}"
