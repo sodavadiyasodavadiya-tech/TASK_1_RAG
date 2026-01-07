@@ -64,6 +64,11 @@ def ask(question: str = Query(..., min_length=3)):
 
     answer = ask_llm(context, question)
 
+# ✅ EXTRACTIVE FALLBACK (CRITICAL)
+    if answer.strip().lower().startswith("i don't know"):
+        answer = retrieved[0][1]["text"]
+
+
     # ✅ Confidence computed from similarity scores
     confidence = sum([item[0] for item in retrieved]) / len(retrieved)
 
