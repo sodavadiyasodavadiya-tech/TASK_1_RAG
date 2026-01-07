@@ -7,22 +7,28 @@ HF_HEADERS = {
 
 def ask_llm(context: str, question: str) -> str:
     prompt = f"""
-Answer ONLY using the context below.
-If the answer is not present, say:
-"I don't know based on the provided context."
+You are a strict question-answering system.
+
+Rules:
+- Answer ONLY using the provided context.
+- If the answer IS present in the context, answer clearly and concisely.
+- If the answer is NOT present, say exactly:
+  "I don't know based on the provided context."
 
 Context:
 {context}
 
 Question:
 {question}
+
+Answer:
 """
 
     response = requests.post(
         HF_API_URL,
         headers=HF_HEADERS,
         json={"inputs": prompt}
-        
+
     )
 
     data = response.json()
