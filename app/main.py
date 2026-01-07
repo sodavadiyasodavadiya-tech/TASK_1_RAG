@@ -87,3 +87,6 @@ def ask(question: str = Query(..., min_length=3)):
         "confidence": round(float(confidence), 2),
         "evidence": evidence
     }
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=7860)
